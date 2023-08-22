@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+    <h4>STATISTICS</h4>
+    <table class="table table-borderless" style="width:50%;">
+        <tbody>
+            <tr>
+                <td style="width: 60%">Number of projects:</td>
+                <td style="width: 40%">{{ num_projects }}</td>
+            </tr>
+            <tr>
+                <td>Number of tasks:</td>
+                <td>{{ num_tasks }}</td>
+            </tr>
+            <tr>
+                <td>Number of completed tasks:</td>
+                <td>{{ num_completed_tasks }}</td>
+            </tr>
+            <tr>
+                <td>Percentage of completed tasks:</td>
+                <td>
+                    <div class="progress">
+                        <div class="progress-bar"
+                             role="progressbar"
+                             style="width:{{ percentage_completed_tasks }}">{{ percentage_completed_tasks }}</div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>Number of completed projects:</td>
+                <td>{{ num_completed_projects }}</td>
+            </tr>
+            <tr>
+                <td>Percentage of completed projects:</td>
+                <td>
+                    <div class="progress">
+                        <div class="progress-bar"
+                             role="progressbar"
+                             style="width:{{ percentage_completed_projects }}">
+                            {{ percentage_completed_projects }}
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+    <head>
+        {% load static %}
+        {% block title %}<title>Project Management Tool</title>{% endblock %}
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" href="{% static 'favicon.png' %}" sizes="32x32">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+              rel="stylesheet"
+              integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+              crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+                crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    </head>
+    <body>
+        <div class="container-fluid" style="height: 70vw;">
+            <div class="row h-100">
+                <div class="col-sm-2 sidebar">
+                    {% block sidebar %}
+                        <div class="borderless">
+                            <ul>
+                                <li style="padding-bottom:10px;">
+                                    <a href="{% url 'index' %}" class="text-decoration-none">ALL PROJECTS</a>
+                                </li>
+                                <li style="padding-bottom:10px;">
+                                    <a href="{% url 'projectmanager-list' %}" class="text-decoration-none">MANAGERS</a>
+                                </li>
+                                <li style="padding-bottom:40px;">
+                                    <a href="{% url 'statistics' %}" class="text-decoration-none">STATISTICS</a>
+                                </li>
+                                {% if user.is_authenticated %}
+                                    <li class="dropdown">
+                                        <a href="#"
+                                           class="nav-link dropdown-toggle  text-truncate"
+                                           id="dropdown"
+                                           data-bs-toggle="dropdown"
+                                           aria-expanded="false">
+                                            <i class="fs-5 bi-bootstrap"></i><span class="ms-1 d-none d-sm-inline">{{ user }}</span>
+                                        </a>
+                                        <ul class="dropdown-menu text-small shadow" aria-labelledby="{{ user }}">
+                                            <li>
+                                                <a href="{% url 'logout' %}?next={{ request.path }}">Logout</a>
+                                            </li>
+                                            <li>
+                                                <hr class="dropdown-divider">
+                                            </li>
+                                            <li>
+                                                <a href="{% url 'password_change' %}">Change password</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                {% else %}
+                                    <li>
+                                        <a href="{% url 'login' %}?next={{ request.path }}">Login</a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    {% endblock %}
+                </div>
+                <div class="col-sm" style="padding-left: 80px; padding-top: 50px;">
+                    <div>
+                        {% block content %}{% endblock %}
+                    </div>
+                    {% block pagination %}
+                        {% if is_paginated %}
+                            <div class="btn-group"
+                                 role="group"
+                                 aria-label="Item pagination"
+                                 style="padding-top:35px">
+                                {% if page_obj.has_previous %}
+                                    <a href="?page={{ page_obj.previous_page_number }}"
+                                       class="btn btn-outline-primary">Previous &laquo;</a>
+                                {% endif %}
+                                {% for page_number in page_obj.paginator.page_range %}
+                                    {% if page_obj.number == page_number %}
+                                        <a href="?page={{ page_number }}" class="btn btn-outline-primary active">{{ page_number }}</a>
+                                    {% else %}
+                                        <a href="?page={{ page_number }}" class="btn btn-outline-primary">{{ page_number }}</a>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if page_obj.has_next %}
+                                    <a href="?page={{ page_obj.paginator.num_pages }}"
+                                       class="btn btn-outline-primary">&raquo; Next</a>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

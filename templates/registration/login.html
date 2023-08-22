@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+    {% if form.errors %}
+        <div class="alert alert-warning col-sm-8" role="alert">
+            <p>Incorrect login details. Please log in again.</p>
+        </div>
+    {% endif %}
+    {% if next %}
+        {% if user.is_authenticated %}
+            <p>You don't have access to this page. Please login with an account that has access.</p>
+        {% else %}
+            <p>Please login to see this page.</p>
+        {% endif %}
+    {% endif %}
+    <form method="post" action="{% url 'login' %}" style="padding-bottom:15px">
+        {% csrf_token %}
+        <table style="margin-bottom:15px">
+            <tr>
+                <td>Username:</td>
+                <td>{{ form.username }}</td>
+            </tr>
+            <tr>
+                <td>Password:</td>
+                <td>{{ form.password }}</td>
+            </tr>
+        </table>
+        <button type="submit" class="btn btn-outline-primary">Login</button>
+        <input type="hidden" name="next" value="{{ next }}">
+    </form>
+{% endblock %}

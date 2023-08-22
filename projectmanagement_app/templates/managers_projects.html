@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+    <h4 style="padding-bottom: 0px;">PROJECTS</h4>
+    <h5>{{ manager_name }}</h5>
+    {% if projects %}
+        <table class="table" style="width:70%; margin-bottom:35px;">
+            <tbody>
+                {% for project in projects %}
+                    <tr>
+                        <td class="align-middle">{{ project.name }}</td>
+                        <td class="align-middle">
+                            <a href="{% url "project-detail" project.id %}"
+                               class="btn btn-outline-primary">View project details</a>
+                        </td>
+                        <td class="align-middle">
+                            <a href="{% url "task-list" project.id %}"
+                               class="btn btn-outline-primary">View tasks</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p style="padding-bottom: 35px;">There are no projects for this manager.</p>
+        {% if perms.projectmanagement_app.delete_projectmanager %}
+            <button class="btn btn-danger"
+                    onclick="location.href='{% url "projectmanager-delete" manager_id %}';">Delete the manager</button>
+        {% endif %}
+    {% endif %}
+    {% if perms.projectmanagement_app.change_projectmanager %}
+        <button class="btn btn-outline-primary"
+                onclick="location.href='{% url "projectmanager-update" manager_id %}';">
+            Update manager's details
+        </button>
+    {% elif perms.projectmanagement_app.delete_projectmanager %}
+        <button class="btn btn-danger"
+                onclick="location.href='{% url "projectmanager-delete" manager_id %}';">Delete the manager</button>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+    {% if task_list %}
+        <h4 style="padding-bottom: 0px;">TASK LIST</h4>
+        <h5>Project: {{ project_name }}</h5>
+        <table class="table table-striped table-dark"
+               style="width:80%;
+                      margin-bottom:35px">
+            <thead>
+                <tr>
+                    <th scope="col">TASK NAME</th>
+                    <th scope="col">DUE DATE</th>
+                    <th scope="col">STATUS</th>
+                    <th scope="col">PERSON ASSIGNED</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in task_list %}
+                    <tr>
+                        <td>
+                            <a href="{% url "task-detail" task.project_id task.id %}">{{ task.name }}</a>
+                        </td>
+                        <td>{{ task.due_date | date:"d-M-y" }}</td>
+                        <td {% if task.status == 'NS' %} style="color:#6c6a75" {% elif task.status == 'IP' %} style="color:#3183b6;" {% elif task.status == 'CO' %} style="color:green;" {% elif task.status == 'CA' %} style="color:#B20000;" {% endif %}>
+                            {{ task.get_status_display }}
+                        </td>
+                        <td>{{ task.person_assigned }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>There are no tasks.</p>
+    {% endif %}
+    {% if perms.projectmanagement_app.add_task %}
+        <button class="btn btn-primary"
+                onclick="location.href='{% url "task-create" project_id %}';">Add a new task</button>
+    {% endif %}
+    <button class="btn btn-primary"
+            onclick="location.href='{% url "project-detail" project_id %}';">Project details</button>
+{% endblock %}

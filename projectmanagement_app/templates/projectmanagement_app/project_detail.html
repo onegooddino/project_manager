@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+    <h4>Project: {{ project.name }}</h4>
+    <table class="table table-borderless" style="width:70%;">
+        <tbody>
+            <tr>
+                <td>Description:</td>
+                <td>{{ project.description }}</td>
+            </tr>
+            <tr>
+                <td>Project Manager:</td>
+                <td>{{ project.manager }}</td>
+            </tr>
+            <tr>
+                <td>Department:</td>
+                <td>{{ project.manager.department }}</td>
+            </tr>
+            <tr>
+                <td>Progress:</td>
+                <td>
+                    {% if num_tasks %}
+                        {{ percent_completed_tasks }} ({{ num_completed_tasks }} task{{ num_completed_tasks|pluralize }} completed out of {{ project.task_set.all.count }})
+                    {% else %}
+                        N/A (no tasks added)
+                    {% endif %}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    {% if perms.projectmanagement_app.change_project %}
+        <button class="btn btn-primary"
+                onclick="location.href='{% url "project-update" project_id %}';">Edit project details</button>
+    {% endif %}
+    {% if perms.projectmanagement_app.delete_project %}
+        <button class="btn btn-danger"
+                onclick="location.href='{% url "project-delete" project_id %}';">Delete the project</button>
+    {% endif %}
+{% endblock %}

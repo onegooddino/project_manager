@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+    <h4>Task: {{ task.name }}</h4>
+    <table class="table table-borderless" style="width:40%; margin-bottom:35px;">
+        <tbody>
+            <tr>
+                <td>Due date:</td>
+                <td>{{ task.due_date }}</td>
+            </tr>
+            <tr>
+                <td>Status:</td>
+                <td>{{ task.get_status_display }}</td>
+            </tr>
+            <tr>
+                <td>Priority:</td>
+                <td>{{ task.get_priority_display }}</td>
+            </tr>
+            <tr>
+                <td>Person assigned:</td>
+                <td>{{ task.person_assigned }}</td>
+            </tr>
+            <tr>
+                <td>Additional information:</td>
+                {% if task.additional_information %}
+                    <td>{{ task.additional_information }}</td>
+                {% else %}
+                    <td>-</td>
+                {% endif %}
+            </tr>
+        </tbody>
+    </table>
+    {% if perms.projectmanagement_app.change_task %}
+        <button class="btn btn-outline-primary"
+                onclick="location.href='{% url "task-update" project_id task_id %}';">Edit the task</button>
+    {% endif %}
+    {% if perms.projectmanagement_app.delete_task %}
+        <button class="btn btn-danger"
+                onclick="location.href='{% url "task-delete" project_id task_id %}';">Delete the task</button>
+    {% endif %}
+{% endblock %}

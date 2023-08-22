@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <h4 style="padding-bottom:30px;">EDIT THE TASK</h4>
+    <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div style="padding-top:30px;">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <button class="btn btn-danger"
+                    onclick="location.href='{% url "task-list" project_id %}';">Cancel</button>
+        </div>
+    </form>
+{% endblock %}

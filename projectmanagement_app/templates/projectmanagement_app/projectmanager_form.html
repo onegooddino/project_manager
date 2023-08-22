@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <h4>ADD A NEW MANAGER</h4>
+    <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div style="padding-top:30px;">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <button class="btn btn-danger"
+                    onclick="location.href='{% url "projectmanager-list" %}';">Cancel</button>
+        </div>
+    </form>
+{% endblock %}

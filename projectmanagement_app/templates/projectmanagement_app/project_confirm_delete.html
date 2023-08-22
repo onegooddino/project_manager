@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+    <h4>Delete Project</h4>
+    <p style="padding-bottom: 35px;" class="fs-3">
+        <span class="text-danger msg">Are you sure you want to delete the project?</span><br>
+        <i>{{ object.name }}</i>
+</p>
+    <form method="POST" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Yes</button>
+    </form>
+    <nobr>
+        <button class="btn btn-danger" onclick="location.href='{% url "index" %}';">Cancel</button>
+    {% endblock %}
